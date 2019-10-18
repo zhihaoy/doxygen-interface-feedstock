@@ -1,0 +1,44 @@
+{% set version = "0.0.1" %}
+{% set sha256 = "8e91fc6426cb5c665ebfcd761082b962518f425c43e7dfc07fc6baadbf390544" %}
+{% set pkg_name = 'doxygen-interface' %}
+
+package:
+  name: {{ pkg_name }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/TraceSoftwareInternational/doxygen-python-interface/archive/{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  noarch: python
+  number: 0
+  script:
+    - export TRAVIS_TAG={{ version }}                      # [unix]
+    - set TRAVIS_TAG={{ version }}                         # [win]
+    - python -m pip install --no-deps --ignore-installed .
+
+requirements:
+  host:
+    - pip
+    - python
+    - setuptools
+  run:
+    - python
+
+test:
+  imports:
+    - doxygen
+
+about:
+  home: https://github.com/TraceSoftwareInternational/doxygen-python-interface
+  license: GPLv3
+  license_file: LICENSE
+  summary: 'Python libs use to configure and build documentation with doxygen'
+
+  description: |
+    This library provide a way to update Doxygen configuration and launch a build of documentation.
+
+extra:
+  recipe-maintainers:
+    - zhihao.yuan
